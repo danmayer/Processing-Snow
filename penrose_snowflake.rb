@@ -15,12 +15,50 @@ class PenroseSnowflake
     @ypos         = ypos
     reset
   end
+  
+  def render()
+    repeats = 1
+    production.split("").each do |element|
+      case element
+      when 'F'
+        line(xpos, ypos, (@xpos -= multiplier(repeats, :cos)), (@ypos += multiplier(repeats, :sin)))
+        repeats = 1
+      when '+'
+        @theta += DELTA * repeats
+        repeats = 1
+      when '-'
+        @theta -= DELTA * repeats
+        repeats = 1
+      when '3', '4', '5'
+        repeats += Integer(element)
+      else puts "Grammar not recognized"  
+      end
+    end
+  end
+  
+  def simulate gen
+    gen.times do      
+      @production = iterate(production, rule)         
+    end
+  end
+
+  private
 
   def reset # initialize or reset variables
     @production  = axiom
     @draw_length = start_length
   end
 
+  def multiplier(repeats, type)
+    value = draw_length * repeats
+    value = case type
+            when :cos
+              value * Math.cos(theta)
+            when :sin
+              value *  Math.sin(theta)
+            end
+  end
+  
   ##############################################################################
   # Not strictly in the spirit of either processing or L-Systems in my iterate
   # function I have ignored the processing translate/rotate functions in favour
@@ -36,30 +74,5 @@ class PenroseSnowflake
     @draw_length *=  0.4
     return new_production
   end
-  
-  def render()
-    repeats = 1
-    production.split("").each do |element|
-      case element
-      when 'F'
-        line(xpos, ypos, (@xpos -= draw_length * repeats * Math.cos(theta)), (@ypos += draw_length * repeats * Math.sin(theta)))
-        repeats = 1
-      when '+'
-        @theta += DELTA * repeats
-        repeats = 1
-      when '-'
-        @theta -= DELTA * repeats
-        repeats = 1
-      when '3', '4', '5'
-        repeats += Integer(element)
-      else puts "Grammar not recognized"  
-      end
-    end
-  end
 
-  def simulate gen
-    gen.times do      
-      @production = iterate(production, rule)         
-    end
-  end
 end

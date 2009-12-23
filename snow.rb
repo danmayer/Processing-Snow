@@ -14,13 +14,13 @@ class Sketch < Processing::App
     
     buffer_x  = 10
     buffer_y  = 10
-    @diameter = 72 
+    @diameter = 100 
   end
 
   def draw
     width = get_rand(20,@diameter)
-    x_snow = get_rand(width+20,@width) 
-    y_snow = get_rand(width+20,@height)
+    x_snow = get_rand(width,@width) 
+    y_snow = get_rand(width,@height)
     stroke 255
     penrose = PenroseSnowflake.new(x_snow, y_snow, get_rand(20,width))
     penrose.simulate get_rand(2,5)
