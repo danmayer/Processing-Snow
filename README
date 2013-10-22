@@ -18,7 +18,8 @@ Cool I want to make my own... Fork this project and play around or check out the
 http://wiki.github.com/jashkenas/ruby-processing/getting-started
 
 How do I make this example work?
-* sudo gem install ruby-processing
+* install the latest version of ruby-processing
+* https://github.com/jashkenas/ruby-processing
 * rp5 run snow.rb
 * Controls
   * Press 's' to take a screenshot
